@@ -1,4 +1,7 @@
+using Application.Activities.Queries;
+using Application.Core;
 using Microsoft.EntityFrameworkCore;
+using System;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +15,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.AddCors();
+
+builder.Services.AddMediatR(x =>
+    x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>()
+);
+
+
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
