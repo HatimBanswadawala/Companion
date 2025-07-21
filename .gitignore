@@ -484,3 +484,5 @@ $RECYCLE.BIN/
 *.swp
 API/appsettings.json
 API/companion.db
+API/companion.db-shm
+API/companion.db-wal
