@@ -1,6 +1,7 @@
-using System;
 using Application.Activities.Commands;
+using Application.Activities.DTOs;
 using Application.Activities.Queries;
+using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,32 +14,30 @@ public class ActivitiesController() : BaseApiController
     [HttpGet]
     public async Task<ActionResult<List<Activity>>> GetActivities()
     {
-        return await Mediator.Send(new GetActivityList.Query());
+        return HandleResult(await Mediator.Send(new GetActivityList.Query()));
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Activity>> GetActivityDetails(string id)
     {
-        return await Mediator.Send(new GetActivityDetails.Query { Id = id });
+        return HandleResult(await Mediator.Send(new GetActivityDetails.Query { Id = id }));    
     }
 
     [HttpPost]
-    public async Task<ActionResult<string>> CreateActivity(Activity activity)
+    public async Task<ActionResult<string>> CreateActivity(CreateActivityDTO activityDTO)
     {
-        return await Mediator.Send(new CreateActivity.Command { activity = activity });
+        return HandleResult(await Mediator.Send(new CreateActivity.Command { activityDTO = activityDTO }));
     }
 
     [HttpPut]
-    public async Task<ActionResult> EditActivity(Activity activity)
+    public async Task<ActionResult> EditActivity(EditActivityDTO activityDTO)
     {
-        await Mediator.Send(new EditActivity.Command { activity = activity });
-        return NoContent();
+        return HandleResult(await Mediator.Send(new EditActivity.Command { activityDTO = activityDTO }));
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteActivity(string id)
     {
-        await Mediator.Send(new DeleteActivity.Command { Id = id });
-        return NoContent();
+        return HandleResult(await Mediator.Send(new DeleteActivity.Command { Id = id }));
     }
 }

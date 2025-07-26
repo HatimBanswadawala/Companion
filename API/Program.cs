@@ -3,6 +3,10 @@ using Application.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Persistence;
+using FluentValidation;
+using Application.Activities.Validators;
+using Microsoft.AspNetCore.Identity.Data;
+using API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,16 +21,23 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddCors();
 
 builder.Services.AddMediatR(x =>
-    x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>()
+{
+    x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>();
+    x.AddOpenBehavior(typeof(ValidationBehavior<,>));
+}
 );
 
-
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+builder.Services.AddValidatorsFromAssemblyContaining<CreateActivityValidator>();
+builder.Services.AddTransient<ExceptionMiddleware>();
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 var app = builder.Build();
+
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 // Configure the HTTP request pipeline.
