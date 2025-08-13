@@ -51,7 +51,7 @@ export default function ActivityForm() {
                 }
                 else
                 {
-                    createActivity.mutateAsync(flattenedData,{
+                    createActivity.mutateAsync( flattenedData, {
                         onSuccess : (id)=>
                             navigate(`/activities/${id}`)
                         
@@ -104,7 +104,8 @@ export default function ActivityForm() {
                         type='submit' 
                         color='success' 
                         variant='contained'
-                        disabled={updateActivity.isPending || createActivity.isPending}>Submit</Button>
+                        disabled={updateActivity.isPending || createActivity.isPending}>Submit
+                    </Button>
                 </Box>
             </Box>
         </Paper>

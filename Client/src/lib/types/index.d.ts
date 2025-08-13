@@ -1,17 +1,24 @@
 type Activity = {
-  id: string;
+  id?: string;
   title: string;
   date: Date;
   description: string;
   category: string;
-  isCancelled: boolean;
-  city: string;
+  isCancelled?: boolean;
+  city?: string;
   venue: string;
   latitude: number;
   longitude: number;
 }
 
-export type LocationIQSuggestion =  {
+type User = {
+  id: string,
+  displayName: string,
+  email: string,
+  imageURL?: string
+}
+
+ type LocationIQSuggestion =  {
   place_id: string
   osm_id: string
   osm_type: string
@@ -27,7 +34,7 @@ export type LocationIQSuggestion =  {
   address: LocationIQAddress
 }
 
-export type LocationIQAddress = {
+ type LocationIQAddress = {
   name: string
   road?: string
   neighbourhood?: string
